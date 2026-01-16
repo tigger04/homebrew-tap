@@ -1,8 +1,8 @@
 # ABOUTME: Homebrew formula for transcribe-summarize.
-# ABOUTME: Builds from source, creates managed Python venv for diarisation.
+# ABOUTME: Builds from source. Python venv for diarization created on first use.
 
 class TranscribeSummarize < Formula
-  desc "Transcribe audio files and generate meeting summaries"
+  desc "Transcribe audio, summarize via Ollama/Claude/OpenAI, identify speakers"
   homepage "https://github.com/tigger04/transcribe-recording"
   url "https://github.com/tigger04/transcribe-recording/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "1143d75596208fbe26e8c11da949080b6fcef3155e9bf839348c520025b60f2e"
@@ -11,33 +11,37 @@ class TranscribeSummarize < Formula
   depends_on xcode: ["15.0", :build]
   depends_on "ffmpeg"
   depends_on "whisper-cpp"
-  depends_on "python@3.10" => :build
+  depends_on "ollama"
 
   def install
     system "swift", "build", "-c", "release", "--disable-sandbox"
     bin.install ".build/release/transcribe-summarize"
-    (share/"transcribe-summarize").install "scripts/diarize.py"
+    pkgshare.install "scripts/diarize.py"
+  end
 
-    # Create managed venv for diarisation
-    venv = share/"transcribe-summarize/venv"
-    system "python3", "-m", "venv", venv
-    system venv/"bin/pip", "install", "--upgrade", "pip"
-    system venv/"bin/pip", "install", "pyannote.audio", "torch"
+  def post_install
+    # Pull mistral model so it works out of the box
+    system "ollama", "pull", "mistral"
   end
 
   def caveats
     <<~EOS
-      Speaker diarisation is ready to use. To enable it:
+      Ollama and the mistral model have been installed.
 
-        1. Create account at https://huggingface.co
-        2. Accept model license at https://huggingface.co/pyannote/speaker-diarization-3.1
-        3. Generate token at https://huggingface.co/settings/tokens
-        4. Set: export HF_TOKEN="your_token"
+      To use local LLM summarization (no API key needed):
+        brew services start ollama
+        export OLLAMA_MODEL="mistral"
+        transcribe-summarize --llm ollama meeting.m4a
 
-      For LLM summarisation, set one of:
+      Or use cloud LLM providers:
         export ANTHROPIC_API_KEY="your_key"  # Claude (default)
         export OPENAI_API_KEY="your_key"     # OpenAI
-        export LLAMA_MODEL_PATH="/path/to/model.gguf"  # Local
+
+      For speaker diarization (optional):
+        1. Create account at https://huggingface.co
+        2. Accept license at https://huggingface.co/pyannote/speaker-diarization-3.1
+        3. Generate token at https://huggingface.co/settings/tokens
+        4. Set: export HF_TOKEN="your_token"
     EOS
   end
 
