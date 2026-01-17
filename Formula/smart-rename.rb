@@ -1,10 +1,10 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://raw.githubusercontent.com/tigger04/smart-rename/v5.21.2/smart-rename"
-  sha256 "2a957d4ee084df6c6a78eb404ffec3bca8b33b8bdb8a27d38e85adbfc5c6014c"
+  url "https://raw.githubusercontent.com/tigger04/smart-rename/v5.21.3/smart-rename"
+  sha256 "dabbdc905cf94d3009b942e2c4a523e0eb71214529a11eb03202939f711cd5a8"
   license "MIT"
-  version "5.21.2"
+  version "5.21.3"
 
   depends_on "bash"
   depends_on "curl"
