@@ -44,12 +44,13 @@ class SmartRename < Formula
       A default configuration file has been created at:
         ~/.config/smart-rename/config.yaml
 
-      To use smart-rename, add your API keys to the config file:
-        nano ~/.config/smart-rename/config.yaml
+      To use smart-rename, add your API keys either:
+        1. In the config file: nano ~/.config/smart-rename/config.yaml
+        2. As environment variables: export OPENAI_API_KEY="sk-..."
 
       You'll need at least one of:
-        - OpenAI API key
-        - Claude API key
+        - OpenAI API key (OPENAI_API_KEY)
+        - Claude API key (CLAUDE_API_KEY)
         - Ollama running locally
 
       smart-rename will work with default settings once you add your API keys.
