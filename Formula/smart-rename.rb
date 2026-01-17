@@ -1,7 +1,7 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://github.com/tigger04/smart-rename/archive/v5.4.0.tar.gz"
+  url "https://raw.githubusercontent.com/tigger04/smart-rename/v5.4.0/smart-rename"
   sha256 "6bdb5202930e70528995db85a5a658ccedf5d064fe5019d91f6c82a6da781ef6"
   license "MIT"
   version "5.4.0"
@@ -18,7 +18,8 @@ class SmartRename < Formula
     # Install main executable
     bin.install "smart-rename"
 
-    # Install config file
+    # Download and install config file
+    system "curl", "-L", "-o", "config.yaml", "https://raw.githubusercontent.com/tigger04/smart-rename/v#{version}/config.yaml"
     (share/"smart-rename").install "config.yaml"
   end
 
