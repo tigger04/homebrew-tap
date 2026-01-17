@@ -1,10 +1,10 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://raw.githubusercontent.com/tigger04/smart-rename/v5.17.0/smart-rename"
-  sha256 "9f831ef473b7fb70650bd69383ef6372ff60c091381d6ab9b140af8aecc4d124"
+  url "https://raw.githubusercontent.com/tigger04/smart-rename/v5.18.0/smart-rename"
+  sha256 "fbad87b32e0c8853a2788abf96ac6182fb76814b275cc3863204366dae9af982"
   license "MIT"
-  version "5.17.0"
+  version "5.18.0"
 
   depends_on "bash"
   depends_on "curl"
@@ -33,10 +33,6 @@ class SmartRename < Formula
       FileUtils.mkdir_p(config_dir)
       FileUtils.cp("#{share}/smart-rename/config.yaml", config_file)
     end
-
-    # Start Ollama service and pull mistral model
-    system "brew services start ollama"
-    system "ollama pull mistral"
   end
 
   def caveats
@@ -45,18 +41,18 @@ class SmartRename < Formula
         smart-rename will create a default config on first run at:
         ~/.config/smart-rename/config.yaml
 
-      smart-rename is ready to use with Ollama (mistral model).
+      First run:
+        Start Ollama: brew services start ollama
+        The Ollama model will be downloaded automatically on first use.
 
       For enhanced AI capabilities, optionally add API keys either:
         1. In the config file: nano ~/.config/smart-rename/config.yaml
         2. As environment variables: export OPENAI_API_KEY="sk-..."
 
       Available AI providers:
-        - Ollama (mistral model) - installed and ready
+        - Ollama (auto-pulls model on first use)
         - OpenAI API (OPENAI_API_KEY) - optional
         - Claude API (CLAUDE_API_KEY) - optional
-
-      smart-rename works out of the box with Ollama, or with added API keys.
     EOS
   end
 
