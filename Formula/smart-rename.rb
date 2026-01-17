@@ -1,10 +1,10 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://github.com/tigger04/smart-rename/archive/v4.1.0.tar.gz"
-  sha256 "2c1d4d6ee66de15c057088e6bfd6c213ea951de6f24dd17772c7e8cbbec1a8d8"
+  url "https://github.com/tigger04/smart-rename/archive/v4.2.0.tar.gz"
+  sha256 "98b26bdf6e8ea5004474e3869d4595af62564057a40d1943103e6efa7cd5e712"
   license "MIT"
-  version "4.1.0"
+  version "4.2.0"
 
   depends_on "bash"
   depends_on "curl"
@@ -40,10 +40,11 @@ class SmartRename < Formula
 
   def caveats
     <<~EOS
-      A default configuration file has been created at:
+      Configuration:
+        smart-rename will create a default config on first run at:
         ~/.config/smart-rename/config.yaml
 
-      smart-rename is ready to use with Ollama (mistral model) installed locally.
+      smart-rename is ready to use with Ollama (mistral model).
 
       For enhanced AI capabilities, optionally add API keys either:
         1. In the config file: nano ~/.config/smart-rename/config.yaml
