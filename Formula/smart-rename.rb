@@ -1,15 +1,16 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://github.com/tigger04/smart-rename/archive/v3.2.0.tar.gz"
-  sha256 "d3d2d5fe4b0b30e1da54fbaad08949b21e2ccb921583bc36f4bd3f5799fe665e"
+  url "https://github.com/tigger04/smart-rename/archive/v4.0.0.tar.gz"
+  sha256 "56bd648ac07ece2112ac8d382c4987efec7db2094a4d588562ca8ca469ffef93"
   license "MIT"
-  version "3.2.0"
+  version "4.0.0"
 
   depends_on "bash"
   depends_on "curl"
   depends_on "fd"
   depends_on "jq"
+  depends_on "yq"
   depends_on "ollama"
   depends_on "poppler"
 
@@ -17,8 +18,8 @@ class SmartRename < Formula
     # Install main executable
     bin.install "smart-rename"
 
-    # Install config examples if they exist
-    (share/"smart-rename").install "config.example.yaml" if File.exist?("config.example.yaml")
+    # Install config file
+    (share/"smart-rename").install "config.yaml"
   end
 
   def post_install
@@ -29,7 +30,7 @@ class SmartRename < Formula
     # Only create default config if it doesn't exist
     unless File.exist?(config_file)
       FileUtils.mkdir_p(config_dir)
-      FileUtils.cp("#{share}/smart-rename/config.example.yaml", config_file)
+      FileUtils.cp("#{share}/smart-rename/config.yaml", config_file)
     end
 
     # Start Ollama service and pull mistral model
