@@ -17,8 +17,9 @@ class SmartRename < Formula
     # Install library
     (share/"smart-rename").install "summarize-text-lib.sh"
 
-    # Install config example
+    # Install config examples
     (share/"smart-rename").install "config.example"
+    (share/"smart-rename").install "config.example.yaml"
 
     # Update the script to use the correct library path
     inreplace bin/"smart-rename",
@@ -26,18 +27,32 @@ class SmartRename < Formula
       "source \"#{share}/smart-rename/summarize-text-lib.sh\""
   end
 
+  def post_install
+    # Create config directory
+    config_dir = "#{ENV["HOME"]}/.config/smart-rename"
+    config_file = "#{config_dir}/config.yaml"
+
+    # Only create default config if it doesn't exist
+    unless File.exist?(config_file)
+      FileUtils.mkdir_p(config_dir)
+      FileUtils.cp("#{share}/smart-rename/config.example.yaml", config_file)
+    end
+  end
+
   def caveats
     <<~EOS
-      To configure smart-rename, copy the example config:
-        cp #{share}/smart-rename/config.example ~/.config/smart-rename/config
+      A default configuration file has been created at:
+        ~/.config/smart-rename/config.yaml
 
-      Then edit it with your API keys:
-        nano ~/.config/smart-rename/config
+      To use smart-rename, add your API keys to the config file:
+        nano ~/.config/smart-rename/config.yaml
 
       You'll need at least one of:
         - OpenAI API key
         - Claude API key
         - Ollama running locally
+
+      smart-rename will work with default settings once you add your API keys.
     EOS
   end
 
