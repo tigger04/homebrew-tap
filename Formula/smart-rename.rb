@@ -25,7 +25,7 @@ class SmartRename < Formula
 
     # Update the script to use the correct library path
     inreplace bin/"smart-rename",
-      'source "$(dirname "$0")/summarize-text-lib.sh"',
+      'source "$script_dir/summarize-text-lib.sh"',
       "source \"#{share}/smart-rename/summarize-text-lib.sh\""
   end
 
