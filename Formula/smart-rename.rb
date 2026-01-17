@@ -6,8 +6,9 @@ class SmartRename < Formula
   license "MIT"
 
   depends_on "bash"
-  depends_on "jq"
   depends_on "curl"
+  depends_on "jq"
+  depends_on "pandoc"
 
   def install
     # Install main executable
