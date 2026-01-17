@@ -1,10 +1,10 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://github.com/tigger04/smart-rename/archive/v2.0.0.tar.gz"
-  sha256 "3540ce3e83d003b24fe6d2f53f643ddc2bc0087afb1e0e66e56b02573bcd19db"
+  url "https://github.com/tigger04/smart-rename/archive/v3.0.0.tar.gz"
+  sha256 "360ada76a61a891d2b8e77472a353b8c1701c835b0577d64da60541ca2ec31fa"
   license "MIT"
-  version "2.0.0"
+  version "3.0.0"
 
   depends_on "bash"
   depends_on "curl"
@@ -17,17 +17,8 @@ class SmartRename < Formula
     # Install main executable
     bin.install "smart-rename"
 
-    # Install library
-    (share/"smart-rename").install "summarize-text-lib.sh"
-
-    # Install config examples
-    (share/"smart-rename").install "config.example"
-    (share/"smart-rename").install "config.example.yaml"
-
-    # Update the script to use the correct library path
-    inreplace bin/"smart-rename",
-      'source "$SCRIPT_DIR/summarize-text-lib.sh" 2>/dev/null',
-      "source \"#{share}/smart-rename/summarize-text-lib.sh\" 2>/dev/null"
+    # Install config examples if they exist
+    (share/"smart-rename").install "config.example.yaml" if File.exist?("config.example.yaml")
   end
 
   def post_install
