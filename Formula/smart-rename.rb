@@ -26,8 +26,8 @@ class SmartRename < Formula
 
     # Update the script to use the correct library path
     inreplace bin/"smart-rename",
-      'source "$script_dir/summarize-text-lib.sh"',
-      "source \"#{share}/smart-rename/summarize-text-lib.sh\""
+      'source "$SCRIPT_DIR/summarize-text-lib.sh" 2>/dev/null',
+      "source \"#{share}/smart-rename/summarize-text-lib.sh\" 2>/dev/null"
   end
 
   def post_install
