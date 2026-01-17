@@ -8,6 +8,7 @@ class SmartRename < Formula
   depends_on "bash"
   depends_on "curl"
   depends_on "jq"
+  depends_on "ollama"
   depends_on "pandoc"
 
   def install
@@ -37,6 +38,10 @@ class SmartRename < Formula
       FileUtils.mkdir_p(config_dir)
       FileUtils.cp("#{share}/smart-rename/config.example.yaml", config_file)
     end
+
+    # Start Ollama service and pull mistral model
+    system "brew services start ollama"
+    system "ollama pull mistral"
   end
 
   def caveats
@@ -44,16 +49,18 @@ class SmartRename < Formula
       A default configuration file has been created at:
         ~/.config/smart-rename/config.yaml
 
-      To use smart-rename, add your API keys either:
+      smart-rename is ready to use with Ollama (mistral model) installed locally.
+
+      For enhanced AI capabilities, optionally add API keys either:
         1. In the config file: nano ~/.config/smart-rename/config.yaml
         2. As environment variables: export OPENAI_API_KEY="sk-..."
 
-      You'll need at least one of:
-        - OpenAI API key (OPENAI_API_KEY)
-        - Claude API key (CLAUDE_API_KEY)
-        - Ollama running locally
+      Available AI providers:
+        - Ollama (mistral model) - installed and ready
+        - OpenAI API (OPENAI_API_KEY) - optional
+        - Claude API (CLAUDE_API_KEY) - optional
 
-      smart-rename will work with default settings once you add your API keys.
+      smart-rename works out of the box with Ollama, or with added API keys.
     EOS
   end
 
