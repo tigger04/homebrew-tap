@@ -15,25 +15,7 @@ class SmartRename < Formula
   depends_on "poppler"
 
   def install
-    # Install main executable
     bin.install "smart-rename"
-
-    # Download and install config file
-    system "curl", "-L", "-o", "config.yaml", "https://raw.githubusercontent.com/tigger04/smart-rename/v#{version}/config.yaml"
-    (share/"smart-rename").install "config.yaml"
-  end
-
-  def post_install
-    # Create config directory
-    config_dir = Pathname.new(Dir.home)/".config/smart-rename"
-    config_file = config_dir/"config.yaml"
-    source_config = prefix/"share/smart-rename/config.yaml"
-
-    # Only create default config if it doesn't exist
-    unless config_file.exist?
-      config_dir.mkpath
-      FileUtils.cp(source_config, config_file) if source_config.exist?
-    end
   end
 
   def caveats
