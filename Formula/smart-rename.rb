@@ -25,13 +25,14 @@ class SmartRename < Formula
 
   def post_install
     # Create config directory
-    config_dir = "#{ENV["HOME"]}/.config/smart-rename"
-    config_file = "#{config_dir}/config.yaml"
+    config_dir = Pathname.new(Dir.home)/".config/smart-rename"
+    config_file = config_dir/"config.yaml"
+    source_config = prefix/"share/smart-rename/config.yaml"
 
     # Only create default config if it doesn't exist
-    unless File.exist?(config_file)
-      FileUtils.mkdir_p(config_dir)
-      FileUtils.cp("#{share}/smart-rename/config.yaml", config_file)
+    unless config_file.exist?
+      config_dir.mkpath
+      FileUtils.cp(source_config, config_file) if source_config.exist?
     end
   end
 
