@@ -1,8 +1,8 @@
 class SmartRename < Formula
   desc "AI-powered file renaming tool that generates intelligent, descriptive filenames"
   homepage "https://github.com/tigger04/smart-rename"
-  url "https://raw.githubusercontent.com/tigger04/smart-rename/v5.21.16/smart-rename"
-  sha256 "1317f088ae88ff0c0dd6b13ad68e1de1b1fef479fbbf60d5d91bf51d2d2e21b2"
+  url "https://github.com/tigger04/smart-rename/archive/refs/tags/v5.23.0.tar.gz"
+  sha256 "fc4fc6d5888f039b75d541bc714cd091c46419384d820cc167904f9943dbec30"
   license "MIT"
   version "5.23.0"
 
@@ -11,35 +11,41 @@ class SmartRename < Formula
   depends_on "fd"
   depends_on "jq"
   depends_on "yq"
-  depends_on "ollama"
   depends_on "poppler"
 
   def install
     bin.install "smart-rename"
+    (pkgshare).install "config.example.yaml"
+    (pkgshare).install "smart-rename.Modelfile"
+    inreplace bin/"smart-rename",
+      'SMART_RENAME_SHARE_DIR="${SMART_RENAME_SHARE_DIR:-}"',
+      "SMART_RENAME_SHARE_DIR=\"#{pkgshare}\""
   end
 
   def caveats
     <<~EOS
-      Configuration:
-        smart-rename will create a default config on first run at:
-        ~/.config/smart-rename/config.yaml
+      smart-rename works out of the box with sensible defaults.
 
-      First run:
-        Start Ollama: brew services start ollama
-        The Ollama model will be downloaded automatically on first use.
+      Optionally create a custom config:
+        cp #{pkgshare}/config.example.yaml ~/.config/smart-rename/config.yaml
+        nano ~/.config/smart-rename/config.yaml
 
-      For enhanced AI capabilities, optionally add API keys either:
-        1. In the config file: nano ~/.config/smart-rename/config.yaml
-        2. As environment variables: export OPENAI_API_KEY="sk-..."
+      First run (with Ollama):
+        brew install ollama
+        brew services start ollama
+        The custom model will be created automatically on first use.
 
-      Available AI providers:
-        - Ollama (auto-pulls model on first use)
-        - OpenAI API (OPENAI_API_KEY) - optional
-        - Claude API (CLAUDE_API_KEY) - optional
+      For cloud AI, set API keys:
+        export OPENAI_API_KEY="sk-..."    # OpenAI
+        export CLAUDE_API_KEY="sk-ant-..."  # Claude
+
+      Default provider order: Ollama -> OpenAI -> Claude
+      Configure in ~/.config/smart-rename/config.yaml
     EOS
   end
 
   test do
-    assert_match "Usage:", shell_output("#{bin}/smart-rename --help 2>&1")
+    assert_match "USAGE:", shell_output("#{bin}/smart-rename --help 2>&1")
+    assert_match version.to_s, shell_output("#{bin}/smart-rename --version 2>&1")
   end
 end
