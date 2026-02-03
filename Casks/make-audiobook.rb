@@ -2,8 +2,8 @@
 # ABOUTME: Copy this file to tigger04/homebrew-tap/Casks/ after building a release.
 
 cask "make-audiobook" do
-  version "2.0.2"
-  sha256 "2ebabd30b32325a9eb1225dd7116732fc54c78af9bb58ad8cae228e7efe7bb72"
+  version "2.1.0"
+  sha256 "82d676c5be165f1bfbe9844d546b57b5b5d5d6c3832f0d3cff4d2fd2c502cc47"
 
   url "https://github.com/tigger04/make-audiobook/releases/download/v#{version}/make-audiobook-#{version}.dmg"
   name "make-audiobook"
@@ -30,7 +30,10 @@ cask "make-audiobook" do
                    args: ["install", "piper-tts"],
                    sudo: false
 
-    ohai "To install default voices, run: piper-voices-setup"
+    # Install default English voices
+    ohai "Installing default voices..."
+    system_command "#{staged_path}/make-audiobook.app/Contents/Resources/scripts/piper-voices-setup",
+                   sudo: false
   end
 
   # Note: piper-tts and voices remain after uninstall.
@@ -44,8 +47,8 @@ cask "make-audiobook" do
   ]
 
   caveats <<~EOS
-    To install default English voices, run:
-      piper-voices-setup
+    Default English voices have been installed automatically.
+    To update voices, run: piper-voices-setup
 
     For additional voices, use the GUI voice browser or visit:
       https://huggingface.co/rhasspy/piper-voices
