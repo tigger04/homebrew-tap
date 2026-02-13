@@ -1,8 +1,8 @@
 class StoryboardGen < Formula
-  desc "Generate video stills and clips from a YAML storyboard using Google AI"
+  desc "Generate video stills and clips from a YAML storyboard using AI providers"
   homepage "https://github.com/tigger04/storyboard-gen"
-  url "https://github.com/tigger04/storyboard-gen/archive/refs/tags/v0.12.0.tar.gz"
-  sha256 "90f26c5143628fb3647f32d3ce7626606c3ac4054e0b6bda61f1543110277a72"
+  url "https://github.com/tigger04/storyboard-gen/archive/refs/tags/v0.13.0.tar.gz"
+  sha256 "bd6f28cddcce728a788a326b6efd0344b34a13849f9e511f4bd5d275c09f4b7b"
   license "MIT"
 
   depends_on "python@3.12"
@@ -14,7 +14,7 @@ class StoryboardGen < Formula
     system "python3.12", "-m", "venv", venv
     venv_pip = venv/"bin/pip"
     system venv_pip, "install", "--upgrade", "pip"
-    system venv_pip, "install", buildpath
+    system venv_pip, "install", "#{buildpath}[all]"
 
     # Create wrapper script
     (bin/"storyboard-gen").write <<~EOS
