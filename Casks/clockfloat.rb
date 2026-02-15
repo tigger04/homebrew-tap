@@ -1,8 +1,8 @@
 # Additional metadata in README of tap repo.
 
 cask "clockfloat" do
-  version "1.0.0"
-  sha256 :no_check
+  version "1.0"
+  sha256 "43920a3a4fa487b0764a6228306035a765dbf97be4474811695d29ed8472b917"
 
   url "https://github.com/tigger04/clockfloat/releases/download/v#{version}/clockfloat-#{version}.zip"
   name "clockfloat"
